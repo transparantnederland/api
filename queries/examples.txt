@@ -1,0 +1,44 @@
+// People who were associated with VVD *at the same time*
+
+MATCH (w:`tnl:Organization`) WHERE w.name = 'VVD'
+
+// Find corresponding concept node:
+OPTIONAL MATCH w <-[:`=`]- (wConcept:`=`)
+WITH coalesce(wConcept, w) AS w
+
+// Find related persons (starting from concept node, or direct):
+MATCH (w)-[`=` * 0 .. 1]-()-[:`tnl:related` * 2]-(p:`tnl:Person`)
+
+WITH collect(p) AS ps
+UNWIND ps AS p1
+UNWIND ps AS p2
+MATCH p1, p2
+WHERE
+  (coalesce(p1.validSinceTimestamp, -99999999999) <= coalesce(p2.validUntilTimestamp, timestamp() / 1000)) AND
+  (coalesce(p1.validUntilTimestamp, timestamp() / 1000) >= coalesce(p2.validSinceTimestamp, -99999999999)) AND
+  (p1.id <> p2.id)
+RETURN DISTINCT p1.name, p2.name
+
+
+
+
+
+
+// Organizations linked to people linked to VVD
+MATCH (b:_) WHERE b.name = 'VVD'
+OPTIONAL MATCH b <-[:`=`]- (bConcept:`=`)
+WITH coalesce(bConcept, b) AS b
+MATCH (b)-[`=` * 0 .. 1]-()-[:`tnl:related` * 2]-(p:`tnl:Person`)
+OPTIONAL MATCH p <-[:`=`]-(pConcept:`=`)
+WITH coalesce(pConcept, p) AS p
+MATCH (p)-[`=` * 0 .. 1]-()-[:`tnl:related` * 2]-(o:_)
+OPTIONAL MATCH (o)-[:`=i`]->(oConcept:`=`)-[:`=`]->(oo)
+RETURN o, oo, oConcept
+
+
+// Person linked to VVD
+MATCH (b:_) WHERE b.name = 'VVD' 
+OPTIONAL MATCH b <-[:`=`]- (bConcept:`=`) 
+WITH coalesce(bConcept, b) AS b 
+MATCH (b)-[`=` * 0 .. 1]-()-[:`tnl:related` * 2]-(p:`tnl:Person`) 
+RETURN p, count(p)

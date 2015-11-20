@@ -1,7 +1,7 @@
 {
-  "name": "histograph-api",
+  "name": "tnl-api",
   "version": "0.5.0",
-  "description": "API for Histograph",
+  "description": "API for Transparant Nederland",
   "main": "./index.js",
   "dependencies": {
     "async": "~0.9.0",
@@ -48,7 +48,7 @@
       "email": "rutger@waag.org"
     }
   ],
-  "license": "GPL-3.0",
+  "license": "MIT",
   "jshintConfig": {
     "node": true,
     "globalstrict": false,

@@ -13,3 +13,5 @@ MATCH (found:_) «directionFrom» [:«relations»|`=`|`=i` * 3 .. 9] «direction
 WHERE NOT found:_Rel AND NOT found:`=`
 RETURN DISTINCT found.id AS id
 LIMIT 100
+
+
