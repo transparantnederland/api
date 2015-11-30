@@ -7,7 +7,7 @@ var io      = require('histograph-io');
 var stats   = require('histograph-stats');
 var app     = express();
 var query   = require('./lib/query');
-var gquery  = require('./lib/gquery');
+var rquery  = require('./lib/rquery');
 var jsonld  = require('./lib/jsonld');
 var geojson = require('./lib/geojson');
 var params  = require('./lib/params');
@@ -79,11 +79,46 @@ app.get('/search',
   }
 );
 
-app.get('/r',
+app.get('/peopleFromOrgsFromPerson',
   params.preprocess,
   params.check,
   function(req, res) {
-    gquery(req.processedQuery, function(err, results) {
+    rquery.peopleFromOrgsFromPerson(req.processedQuery, function(err, results) {
+      if (err) {
+        res.status(err.status || 400).send({
+          message: formatError(err)
+        });
+      } else {
+        results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
+        res.send(results);
+      }
+    });
+  }
+);
+
+app.get('/peopleFromOrg',
+  params.preprocess,
+  params.check,
+  function(req, res) {
+    rquery.peopleFromOrg(req.processedQuery, function(err, results) {
+      if (err) {
+        res.status(err.status || 400).send({
+          message: formatError(err)
+        });
+      } else {
+        results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
+        res.send(results);
+      }
+    });
+  }
+);
+
+
+app.get('/orgsFromPerson',
+  params.preprocess,
+  params.check,
+  function(req, res) {
+    rquery.orgsFromPerson(req.processedQuery, function(err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
