@@ -6,8 +6,9 @@ OPTIONAL MATCH (person) <-[:`=`]- (concepts:`=`)
 WITH coalesce(concepts, person) AS person
 
 // find related organizations
-MATCH (person)-[`=` * 0 .. 1]-()-[:«relations» * 2]-(orgs:`tnl:Organization`)
-return orgs
+MATCH (person)-[`=` * 0 .. 1]-()-[:«relations» * 2]-(orgs)
+WHERE labels(orgs)[1] IN ["tnl:Organization","tnl:Public","tnl:PoliticalParty","tnl:Commercial","tnl:NonProfit"]
+RETURN orgs
 
 
 

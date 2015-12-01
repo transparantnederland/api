@@ -34,7 +34,6 @@ function formatError(err) {
       return 'Dataset not found: ' + match[1];
     }
   }
-
   return err;
 }
 
@@ -49,8 +48,6 @@ app.get('/', function(req, res) {
     })
   });
 });
-
-
 
 
 app.get('/ontology', function(req, res) {
@@ -89,7 +86,7 @@ app.get('/peopleFromOrgsFromPerson',
           message: formatError(err)
         });
       } else {
-        results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
+        // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
         res.send(results);
       }
     });
@@ -106,7 +103,7 @@ app.get('/peopleFromOrg',
           message: formatError(err)
         });
       } else {
-        results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
+        // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
         res.send(results);
       }
     });
@@ -124,14 +121,28 @@ app.get('/orgsFromPerson',
           message: formatError(err)
         });
       } else {
-        results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
+        // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
         res.send(results);
       }
     });
   }
 );
 
-
+app.get('/equivalentIDs',
+  params.preprocess,
+  params.check,
+  function(req, res) {
+    rquery.equivalent(req.processedQuery, function(err, results) {
+      if (err) {
+        res.status(err.status || 400).send({
+          message: formatError(err)
+        });
+      } else {
+        res.send(results);
+      }
+    });
+  }
+);
 
 app.listen(config.api.bindPort, function() {
   console.log(config.logo.join('\n'));
