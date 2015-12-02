@@ -26,10 +26,10 @@ And adds some more:
 
 | Endpoint                                    | Description
 |---------------------------------------------|------------------------------------------
-| [`/orgsFromPerson`](#orgsFromPerson-api)    | Retrieve all organizations a Person has had a relation with a Person
+| [`/orgsFromPerson`](#orgsFromPerson-api)    | Retrieve all organizations a Person has had a relation with
 | [`/peopleFromOrg`](#peopleFromOrg-api)      | Retrieve all people that have (had) a relation with an Organization
 | [`/peopleFromOrgsFromPerson`](#pfofp-api)   | Retrieve all people that have (had) a relation with organizations that a person has (had) a relationship with
-| [`/equivalentIDs`](#equivalentIDs-api)      | Retrieve all ID's of PITS that have an equivalence relation with a PIT
+| [`/equivalentIDs`](#equivalentIDs-api)      | Retrieve all ID's of people or organizations that have an equivalence relation with a particular node
 
 
 
