@@ -1,23 +1,17 @@
-# Histograph API
+# Transparant NL API
 
-Histograph geocoding and dataset API. A production version of the API is running on [https://api.histograph.io](https://api.histograph.io).
-
-Some example queries:
-
-- https://api.histograph.io/search?name=utrecht
-- https://api.histograph.io/search?uri=http://vocab.getty.edu/tgn/7271174
-- https://api.histograph.io/search?name=amsterdam&type=hg:Municipality
+This API is a simplified version of the Histograph geocoding and dataset API, found [here](https://github.com/histograph/api).
 
 To run the API locally, clone this repository and type:
 
     npm install
     node index.js
 
-For more information about installing and running the complete Histograph stack, see the [`histograph/installation`](https://github.com/histograph/installation) repository.
+For more information about installing and running the complete Histograph stack, which we use for Transparant NL, see the [`histograph/installation`](https://github.com/histograph/installation) repository. All is relevant, except the API, which is replaced by this one.
 
 ## API specification
 
-The Histograph API has five endpoints:
+The Transparant NL API inherits the five endpoints from the histograph version:
 
 | Endpoint                                    | Description
 |---------------------------------------------|------------------------------------------
@@ -26,6 +20,18 @@ The Histograph API has five endpoints:
 | [`/ontology`](#ontology-api)                | Histograph ontology
 | [`/schemas`](#json-schemas-api)             | JSON schemas
 | [`/stats`](#data-and-system-statistics-api) | Data and system statistics
+
+
+And adds some more:
+
+| Endpoint                                    | Description
+|---------------------------------------------|------------------------------------------
+| [`/orgsFromPerson`](#orgsFromPerson-api)    | Retrieve all organizations a Person has had a relation with a Person
+| [`/peopleFromOrg`](#peopleFromOrg-api)      | Retrieve all people that have (had) a relation with an Organization
+| [`/peopleFromOrgsFromPerson`](#pfofp-api)   | Retrieve all people that have (had) a relation with organizations that a person has (had) a relationship with
+| [`/equivalentIDs`](#equivalentIDs-api)      | Retrieve all ID's of PITS that have an equivalence relation with a PIT
+
+
 
 ### Search API
 
