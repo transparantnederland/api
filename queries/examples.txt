@@ -42,3 +42,31 @@ OPTIONAL MATCH b <-[:`=`]- (bConcept:`=`)
 WITH coalesce(bConcept, b) AS b 
 MATCH (b)-[`=` * 0 .. 1]-()-[:`tnl:related` * 2]-(p:`tnl:Person`) 
 RETURN p, count(p)
+
+
+
+
+
+MATCH (person:`tnl:Person`) WHERE person.id = "urn:hgid:nevenfuncties/NyXL7RdbH2ze"
+OPTIONAL MATCH (person) <-[:`=`]- (concepts:`=`)
+WITH coalesce(concepts, person) AS person
+MATCH (person)-[`=` * 0 .. 1]-()-[rel:`tnl:related`|`tnl:member` * 2]-(orgs)
+WHERE labels(orgs)[1] IN ["tnl:Organization","tnl:Public","tnl:PoliticalParty","tnl:Commercial","tnl:NonProfit"]
+RETURN orgs,rel
+
+MATCH (person:`tnl:Person`) WHERE person.id = "urn:hgid:nevenfuncties/NyXL7RdbH2ze"
+OPTIONAL MATCH (person) <-[:`=`]- (concepts:`=`)
+WITH coalesce(concepts, person) AS person
+MATCH (person) -[r0:`tnl:related`|`tnl:member`]-> (r:_Rel) -[r1:`tnl:related`|`tnl:member`]-> (orgs)
+WHERE labels(orgs)[1] IN ["tnl:Organization","tnl:Public","tnl:PoliticalParty","tnl:Commercial","tnl:NonProfit"]
+RETURN orgs,r.type
+
+MATCH ()-[r]-() return r limit 10
+
+MATCH (n:_)-[r0]->(r:_Rel)-[r1]->(m:_)`
+
+MATCH (n:_) -[r0:`tnl:related`|`tnl:member`]-> (r:_Rel) -[r1:`tnl:related`|`tnl:member`]-> (m:_) 
+return r limit 10
+
+
+

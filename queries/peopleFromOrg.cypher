@@ -8,4 +8,4 @@ WITH coalesce(concepts, orgs) AS orgs
 MATCH (orgs) <-[`=` * 0 .. 1]- () <-[:«relations» * 2]- (people:`tnl:Person`)
 return people
 
-http://localhost:3001/peopleFromOrg?id=nevenfuncties/NJ0UX0_-ShGe
+// http://localhost:3001/peopleFromOrg?id=nevenfuncties/NJ0UX0_-ShGe

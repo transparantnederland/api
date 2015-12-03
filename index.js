@@ -39,10 +39,10 @@ function formatError(err) {
 
 app.get('/', function(req, res) {
   res.send({
-    name: 'Histograph API',
-    version: '0.5.1',
-    message: 'Histograph - Historical Geocoder',
-    docs: 'http://histograph.io/',
+    name: 'Transparant NL API',
+    version: '0.0.1',
+    message: 'Bestuurlijk Nederland in beeld',
+    docs: 'https://github.com/waagsociety/tnl-api',
     examples: exampleUrls.map(function(query) {
       return url.resolve(config.api.baseUrl, query);
     })
