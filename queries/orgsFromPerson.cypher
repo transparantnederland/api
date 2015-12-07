@@ -7,7 +7,7 @@ WITH coalesce(concepts, person) AS person
 
 // find related organizations
 MATCH (person) -[r0:«relations»]-> (r:_Rel) -[r1:«relations»]-> (orgs)
-WHERE labels(orgs)[1] IN ["tnl:Organization","tnl:Public","tnl:PoliticalParty","tnl:Commercial","tnl:NonProfit"]
+WHERE labels(orgs)[1] IN [«organizations»]
 RETURN orgs,r.type
 
 
