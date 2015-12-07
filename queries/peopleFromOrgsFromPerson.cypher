@@ -12,10 +12,19 @@ MATCH (person)-[`=` * 0 .. 1]-()-[:«relations» * 2]-(orgs)
 WHERE labels(orgs)[1] IN [«organizations»]
 
 
-// and people related to these
-MATCH (orgs)-[`=` * 0 .. 1]-()-[:«relations» * 2]-(people:`tnl:Person`)
+OPTIONAL MATCH (orgs) <- [:`=`] - (conceptO:`=`)
+WITH coalesce(conceptO, orgs) AS orgs
 
-return people
+
+
+// and people related to these/
+// MATCH (orgs)-[`=` * 0 .. 1]-()-[:«relations» * 2]-(people:`tnl:Person`)
+
+MATCH (orgs) <-[r0:«relations»]-> (r:_Rel) -[r1:«relations»]- (people:`tnl:Person`)
+
+
+
+return people, orgs, r.type
 
 
 // http://localhost:3001/peopleFromOrgsFromPerson?id=overheidsorganisaties/113479
