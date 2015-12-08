@@ -3,7 +3,7 @@
 
 MATCH (orgs:_) WHERE orgs.id = {id}
 OPTIONAL MATCH (orgs) <-[:`=`]- (concepts:`=`)
-WITH coalesce(concepts, orgs) AS orgs
+WITH coalesce(orgs, concepts) AS orgs
 
 MATCH (orgs) <-[r0:«relations»]-> (r:_Rel) -[r1:«relations»]- (people:`tnl:Person`)
 

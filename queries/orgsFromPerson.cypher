@@ -3,7 +3,7 @@
 MATCH (person:`tnl:Person`) WHERE person.id = {id}
 // Find corresponding concept node:
 OPTIONAL MATCH (person) <-[:`=`]- (concepts:`=`)
-WITH coalesce(concepts, person) AS person
+WITH coalesce(person, concepts) AS person
 
 // find related organizations
 MATCH (person) -[r0:«relations»]-> (r:_Rel) -[r1:«relations»]-> (orgs)
