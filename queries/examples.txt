@@ -1,10 +1,18 @@
+// Cypher Scratchpad -- disregard//
+
+
+
+
+
+
+
 // People who were associated with VVD *at the same time*
 
 MATCH (w:`tnl:Organization`) WHERE w.name = 'VVD'
 
 // Find corresponding concept node:
 OPTIONAL MATCH w <-[:`=`]- (wConcept:`=`)
-WITH coalesce(wConcept, w) AS w
+WITH coalesce(w, wConcept) AS w
 
 // Find related persons (starting from concept node, or direct):
 MATCH (w)-[`=` * 0 .. 1]-()-[:`tnl:related` * 2]-(p:`tnl:Person`)
@@ -68,5 +76,41 @@ MATCH (n:_)-[r0]->(r:_Rel)-[r1]->(m:_)`
 MATCH (n:_) -[r0:`tnl:related`|`tnl:member`]-> (r:_Rel) -[r1:`tnl:related`|`tnl:member`]-> (m:_) 
 return r limit 10
 
+
+
+-----------------
+
+/ from ID to relations back to people
+// People related to people through orgs they are or have been related to
+
+single: urn:hgid:nevenfuncties/VJX7PJFZS3Mx
+multiple: urn:hgid:overheidsorganisaties/113479
+
+MATCH (person:_) WHERE person.id = "urn:hgid:overheidsorganisaties/113479"
+// Find corresponding concept node:
+OPTIONAL MATCH (person) <- [:`=`] - (conceptP:`=`)
+WITH coalesce(conceptP, person) AS either
+return person
+
+
+OPTIONAL MATCH (person1:_) <- [:`=`] - (either)
+WITH coalesce(person1, person) AS per
+return per
+
+
+// find organizations
+MATCH (person)-[`=` * 0 .. 1]-()-[:`tnl:member`|`tnl:related` * 2]-(orgs)
+WHERE labels(orgs)[1] IN ["tnl:Organization", "tnl:Public"]
+
+OPTIONAL MATCH (orgs) <- [:`=`] - (conceptO:`=`)
+WITH coalesce(orgs, conceptO ) AS orgs
+
+// and people related to these
+MATCH (orgs) <-[r0:`tnl:member`|`tnl:related`]-> (r:_Rel) -[r1:`tnl:member`|`tnl:related`]- (people:`tnl:Person`)
+
+
+// now, for each org(concept!!) find the people who had «relations» with them at the same time as <person>..
+
+return people, orgs, r.type, person.name
 
 

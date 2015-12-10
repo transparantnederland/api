@@ -128,11 +128,27 @@ app.get('/orgsFromPerson',
   }
 );
 
+app.get('/equivalentNodes',
+  params.preprocess,
+  params.check,
+  function(req, res) {
+    rquery.equivalentNodes(req.processedQuery, function(err, results) {
+      if (err) {
+        res.status(err.status || 400).send({
+          message: formatError(err)
+        });
+      } else {
+        res.send(results);
+      }
+    });
+  }
+);
+
 app.get('/equivalentIDs',
   params.preprocess,
   params.check,
   function(req, res) {
-    rquery.equivalent(req.processedQuery, function(err, results) {
+    rquery.equivalentIDs(req.processedQuery, function(err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
