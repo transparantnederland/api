@@ -1,24 +1,37 @@
-// from ID to relations back to people
-// People related to people through orgs they are or have been related to
+// vind alle related persons, behalve mezelf
 
+// find all persons in a concept
 MATCH (person:_) WHERE person.id = {id}
-
-// Find corresponding concept node:
-OPTIONAL MATCH (person) <-[:`=`]- (conceptP:`=`)
-WITH coalesce(person, conceptP) AS person
+OPTIONAL MATCH person -- (concept:`=`) -- p2
+WITH collect(DISTINCT p2) AS peeps
 
 // find organizations
-MATCH (person)-[`=` * 0 .. 1]-()-[:«relations» * 2]-(orgs)
-WHERE labels(orgs)[1] IN [«organizations»]
+UNWIND peeps AS person
+MATCH person -[:«relations»]-()-[:«relations»]- orgs
+// MATCH person -[:«relations» * 2]- orgs
+   WHERE labels(orgs)[1] IN [«organizations»]
 
-OPTIONAL MATCH (orgs) <- [:`=`] - (conceptO:`=`)
-WITH coalesce(orgs, conceptO ) AS orgs
+WITH DISTINCT peeps, person, orgs
 
-// and people related to these/
-MATCH (orgs) <-[r0:«relations»]-> (r:_Rel) -[r1:«relations»]- (people:`tnl:Person`)
+MATCH orgs <-[:«relations»]-
+   (r:_Rel) <-[:«relations»]-
+   (p:`tnl:Person`)
+   WHERE NOT p IN peeps
+//   AND p.validSince >= person.validSince
+//   AND p.validUntil <= person.validUntil
+
+RETURN DISTINCT p as people, orgs,  r.type
 
 
-// now, for each org(concept!!) find the people who had «relations» with them at the same time as <person>..
 
-return people, orgs, r.type
 
+
+//WITH collect(p) AS ps
+//UNWIND ps AS p1
+//UNWIND ps AS p2
+//MATCH p1, p2
+//WHERE
+//  (coalesce(p1.validSinceTimestamp, -99999999999) <= coalesce(p2.validUntilTimestamp, timestamp() / 1000)) AND
+//  (coalesce(p1.validUntilTimestamp, timestamp() / 1000) >= coalesce(p2.validSinceTimestamp, -99999999999)) AND
+//  (p1.id <> p2.id)
+//RETURN DISTINCT p1.id, p2.id
