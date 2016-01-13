@@ -26,6 +26,4 @@ MATCH (orgs) <-[r0:«relations»]-> (r:_Rel) -[r1:«relations»]- (people:`tnl:P
 return people, orgs, r.type
 
 
-// http://localhost:3001/peopleFromOrgsFromPerson?id=overheidsorganisaties/113479
-
-
+// http://localhost:3001/peopleFromOrgsFromPerson?id=dbpedia_sg/VJBnjUsUl
