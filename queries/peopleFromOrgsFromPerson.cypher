@@ -1,29 +1,28 @@
-// from ID to relations to people
-// People related to people through orgs they are related to
+// vind alle related persons, behalve mezelf
 
+// find all persons in a concept
 MATCH (person:_) WHERE person.id = {id}
-
-// Find corresponding concept node:
-OPTIONAL MATCH (person) <-[:`=`]- (conceptP:`=`)
-WITH coalesce(conceptP, person) AS person
+OPTIONAL MATCH person -- (concept:`=`) -- p2
+WITH collect(DISTINCT p2) AS peeps
 
 // find organizations
-MATCH (person)-[`=` * 0 .. 1]-()-[:«relations» * 2]-(orgs)
-WHERE labels(orgs)[1] IN [«organizations»]
+UNWIND peeps AS person
+MATCH person -[:«relations»]-()-[:«relations»]- orgs
+   WHERE labels(orgs)[1] IN [«organizations»]
+
+WITH DISTINCT peeps, person, orgs
+
+MATCH (orgs) <-[:`=i`|«relations» * 1..2]-
+   (r:_Rel) <-[:«relations»]-
+   (p:`tnl:Person`)
+   WHERE NOT p IN peeps
+
+RETURN DISTINCT p as people, orgs, r.type
 
 
-OPTIONAL MATCH (orgs) <- [:`=`] - (conceptO:`=`)
-WITH coalesce(conceptO, orgs) AS orgs
 
 
 
-// and people related to these/
-//MATCH (orgs) <-[r0:«relations»]-> (r:_Rel) -[r1:«relations»]- (people:`tnl:Person`)
-
-MATCH (orgs) <-[r0:`=i`|«relations» * 1..2]- (r:_Rel) <-[r1:«relations»]- (people:`tnl:Person`)
-
-
-return people, orgs, r.type
 
 
 // http://localhost:3001/peopleFromOrgsFromPerson?id=dbpedia_sg/VJBnjUsUl// 
