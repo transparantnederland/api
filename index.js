@@ -1,16 +1,16 @@
 var url     = require('url');
 var express = require('express');
 var cors    = require('cors');
-var config  = require('histograph-config');
-var schemas = require('histograph-schemas');
-var io      = require('histograph-io');
-var stats   = require('histograph-stats');
-var app     = express();
+var schemas = require('tnl-schemas');
+var io      = require('tnl-io');
+var stats   = require('tnl-stats');
+var config  = require('tnl-config');
 var query   = require('./lib/query');
 var rquery  = require('./lib/rquery');
 var jsonld  = require('./lib/jsonld');
 var geojson = require('./lib/geojson');
 var params  = require('./lib/params');
+var app     = express();
 
 app.use(cors());
 
@@ -36,6 +36,12 @@ function formatError(err) {
   }
   return err;
 }
+
+app.use("*", function(req,res,next) {
+  console.log("query: " + req.originalUrl);
+  next();
+});
+
 
 app.get('/', function(req, res) {
   res.send({
