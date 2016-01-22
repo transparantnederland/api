@@ -1,16 +1,19 @@
 var url     = require('url');
 var express = require('express');
 var cors    = require('cors');
-var schemas = require('tnl-schemas');
+var schemas = require('histograph-schemas');
 var io      = require('tnl-io');
-var stats   = require('tnl-stats');
-var config  = require('tnl-config');
+var stats   = require('histograph-stats');
+var config  = require('histograph-config');
 var query   = require('./lib/query');
 var rquery  = require('./lib/rquery');
 var jsonld  = require('./lib/jsonld');
 var geojson = require('./lib/geojson');
 var params  = require('./lib/params');
 var app     = express();
+
+// echo '{"type":"tnl:same", "from":"a", "to":"b" }' | http -a admin:huis-boom-koe PUT http://localhost:3001/datasets/corrections/relations
+
 
 app.use(cors());
 
@@ -25,6 +28,13 @@ schemas.ontology(function(err, results) {
   ontology = results;
 });
 
+
+app.use("*", function(req,res,next) {
+  console.log("query: " + req.originalUrl);
+  next();
+});
+
+
 var exampleUrls = config.api.exampleUrls || [];
 
 function formatError(err) {
@@ -36,12 +46,6 @@ function formatError(err) {
   }
   return err;
 }
-
-app.use("*", function(req,res,next) {
-  console.log("query: " + req.originalUrl);
-  next();
-});
-
 
 app.get('/', function(req, res) {
   res.send({
