@@ -10,7 +10,7 @@
     "elasticsearch": "^8.2.0",
     "express": "^4.13.3",
     "highland": "^2.5.1",
-    "histograph-config": "transparantnederland/config",
+    "tnl-config": "transparantnederland/config",
     "histograph-schemas": "histograph/schemas",
     "histograph-stats": "histograph/stats",
     "histograph-uri-normalizer": "histograph/uri-normalizer",
