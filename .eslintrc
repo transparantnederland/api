@@ -1,0 +1,31 @@
+{
+  "env": {
+    "browser": true,
+  },
+  "rules": {
+    "block-scoped-var": 2,
+    "curly": 2,
+    "brace-style": [2, "1tbs"],
+    "quotes": [2, "single"],
+    "semi": [2, "always"],
+    "object-curly-spacing": [2, "always"],
+    "space-infix-ops": 2,
+    "curly": [2, 'multi-line'],
+    "eqeqeq": 2,
+    "no-multi-spaces": 2,
+    "no-redeclare": 2,
+    "array-bracket-spacing": [2, "never"],
+    "brace-style": [2, "1tbs", { "allowSingleLine": true }],
+    "comma-spacing": [2, { "before": false, "after": true }],
+    "eol-last": 2,
+    "indent": [2, 2, { "SwitchCase": 1, "VariableDeclarator": 1 }],
+    "key-spacing": [2, { "beforeColon": false, "afterColon": true }],
+    "no-lonely-if": 0,
+    "no-multiple-empty-lines": [2, { "max": 2, "maxEOF": 1 }],
+    "no-spaced-func": 2,
+    "padded-blocks": [2, "never"],
+    "semi-spacing": [2, { "before": false, "after": true }],
+    "space-in-parens": [2, "never"],
+    "space-before-function-paren": [2, { "anonymous": "always", "named": "never" }],
+  }
+}

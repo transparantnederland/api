@@ -25,13 +25,11 @@
     "wellknown": "^0.3.4"
   },
   "devDependencies": {
-    "mocha": "^2.2.1",
-    "jscs": "^1.10.0",
-    "jshint": "^2.6.0"
+    "eslint": "1.10.3"
   },
   "scripts": {
     "start": "node index.js",
-    "test": "jshint index.js lib && jscs index.js lib"
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
