@@ -10,6 +10,8 @@ var rquery = require('./lib/rquery');
 var jsonld = require('./lib/jsonld');
 var geojson = require('./lib/geojson');
 var params = require('./lib/params');
+var pkg = require('./package.json');
+
 var app = express();
 
 app.use(cors());
@@ -26,7 +28,7 @@ schemas.ontology(function (err, results) {
 });
 
 app.use('*', function (req, res, next) {
-  console.log('query: ' + req.originalUrl);
+  // console.log('query: ' + req.originalUrl);
   next();
 });
 
@@ -45,9 +47,9 @@ function formatError(err) {
 app.get('/', function (req, res) {
   res.send({
     name: 'Transparant NL API',
-    version: '0.0.1',
+    version: pkg.version,
     message: 'Bestuurlijk Nederland in beeld',
-    docs: 'https://github.com/waagsociety/tnl-api',
+    docs: pkg.homepage,
     examples: exampleUrls.map(function (query) {
       return url.resolve(config.api.baseUrl, query);
     })
@@ -183,7 +185,8 @@ app.get('/equivalentIDs',
   }
 );
 
-app.listen(config.api.bindPort, function () {
-  console.log(config.logo.join('\n'));
-  console.log('Histograph API listening at port ' + config.api.bindPort);
+var server = app.listen(config.api.bindPort, function () {
+  console.info('🌍  Transparant Nederland API listening on port ' + config.api.bindPort);
 });
+
+module.exports = server;
