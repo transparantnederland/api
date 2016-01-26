@@ -1,19 +1,16 @@
-var url     = require('url');
+var url = require('url');
 var express = require('express');
-var cors    = require('cors');
+var cors = require('cors');
 var schemas = require('histograph-schemas');
-var io      = require('tnl-io');
-var stats   = require('histograph-stats');
-var config  = require('histograph-config');
-var query   = require('./lib/query');
-var rquery  = require('./lib/rquery');
-var jsonld  = require('./lib/jsonld');
+var io = require('tnl-io');
+var stats = require('histograph-stats');
+var config = require('histograph-config');
+var query = require('./lib/query');
+var rquery = require('./lib/rquery');
+var jsonld = require('./lib/jsonld');
 var geojson = require('./lib/geojson');
-var params  = require('./lib/params');
-var app     = express();
-
-// echo '{"type":"tnl:same", "from":"a", "to":"b" }' | http -a admin:huis-boom-koe PUT http://localhost:3001/datasets/corrections/relations
-
+var params = require('./lib/params');
+var app = express();
 
 app.use(cors());
 
@@ -24,16 +21,14 @@ app.use('/', io);
 app.use('/stats', stats);
 
 var ontology;
-schemas.ontology(function(err, results) {
+schemas.ontology(function (err, results) {
   ontology = results;
 });
 
-
-app.use("*", function(req,res,next) {
-  console.log("query: " + req.originalUrl);
+app.use('*', function (req, res, next) {
+  console.log('query: ' + req.originalUrl);
   next();
 });
-
 
 var exampleUrls = config.api.exampleUrls || [];
 
@@ -47,33 +42,33 @@ function formatError(err) {
   return err;
 }
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.send({
     name: 'Transparant NL API',
     version: '0.0.1',
     message: 'Bestuurlijk Nederland in beeld',
     docs: 'https://github.com/waagsociety/tnl-api',
-    examples: exampleUrls.map(function(query) {
+    examples: exampleUrls.map(function (query) {
       return url.resolve(config.api.baseUrl, query);
     })
   });
 });
 
 
-app.get('/ontology', function(req, res) {
+app.get('/ontology', function (req, res) {
   res.set('Content-Type', 'text/turtle');
   res.send(ontology);
 });
 
-app.get('/schemas/:schema(pits|relations)', function(req, res) {
+app.get('/schemas/:schema(pits|relations)', function (req, res) {
   res.send(schemas[req.params.schema]);
 });
 
 app.get('/search',
   params.preprocess,
   params.check,
-  function(req, res) {
-    query(req.processedQuery, function(err, results) {
+  function (req, res) {
+    query(req.processedQuery, function (err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
@@ -89,8 +84,8 @@ app.get('/search',
 app.get('/peopleFromOrgsFromPerson',
   params.preprocess,
   params.check,
-  function(req, res) {
-    rquery.peopleFromOrgsFromPerson(req.processedQuery, function(err, results) {
+  function (req, res) {
+    rquery.peopleFromOrgsFromPerson(req.processedQuery, function (err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
@@ -106,8 +101,8 @@ app.get('/peopleFromOrgsFromPerson',
 app.get('/peopleFromOrg',
   params.preprocess,
   params.check,
-  function(req, res) {
-    rquery.peopleFromOrg(req.processedQuery, function(err, results) {
+  function (req, res) {
+    rquery.peopleFromOrg(req.processedQuery, function (err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
@@ -124,8 +119,8 @@ app.get('/peopleFromOrg',
 app.get('/orgsFromPerson',
   params.preprocess,
   params.check,
-  function(req, res) {
-    rquery.orgsFromPerson(req.processedQuery, function(err, results) {
+  function (req, res) {
+    rquery.orgsFromPerson(req.processedQuery, function (err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
@@ -141,8 +136,8 @@ app.get('/orgsFromPerson',
 app.get('/equivalentNodes',
   params.preprocess,
   params.check,
-  function(req, res) {
-    rquery.equivalentNodes(req.processedQuery, function(err, results) {
+  function (req, res) {
+    rquery.equivalentNodes(req.processedQuery, function (err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
@@ -175,8 +170,8 @@ app.get('/equivalentNodes',
 app.get('/equivalentIDs',
   params.preprocess,
   params.check,
-  function(req, res) {
-    rquery.equivalentIDs(req.processedQuery, function(err, results) {
+  function (req, res) {
+    rquery.equivalentIDs(req.processedQuery, function (err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
@@ -188,7 +183,7 @@ app.get('/equivalentIDs',
   }
 );
 
-app.listen(config.api.bindPort, function() {
+app.listen(config.api.bindPort, function () {
   console.log(config.logo.join('\n'));
   console.log('Histograph API listening at port ' + config.api.bindPort);
 });
