@@ -5,8 +5,8 @@ MATCH (orgs) WHERE orgs.id = {id}
 OPTIONAL MATCH (orgs) <-[:`=`]- (concepts:`=`)
 WITH coalesce(concepts,orgs) AS orgs
 
-MATCH (orgs) <- [r0:`=i`|`tnl:related`|`tnl:member` * 1..2 ]-
-  (r:_Rel) <-[r1:`tnl:related`|`tnl:member` ]-
+MATCH (orgs) <- [r0:`=i`|«relations» * 1..2 ]-
+  (r:_Rel) <-[r1:«relations» ]-
   (person:`tnl:Person`)
 
 return
