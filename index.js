@@ -70,8 +70,8 @@ app.get('/search',
   function (req, res) {
     query(req.processedQuery, function (err, results) {
       if (err) {
-        res.status(err.status || 400).send({
-          message: formatError(err)
+        res.status(err.status || 500).send({
+          error: err.message || 'Unknown error'
         });
       } else {
         results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
@@ -87,8 +87,8 @@ app.get('/peopleFromOrgsFromPerson',
   function (req, res) {
     rquery.peopleFromOrgsFromPerson(req.processedQuery, function (err, results) {
       if (err) {
-        res.status(err.status || 400).send({
-          message: formatError(err)
+        res.status(err.status || 500).send({
+          error: err.message || 'Unknown error'
         });
       } else {
         // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
@@ -104,8 +104,8 @@ app.get('/peopleFromOrg',
   function (req, res) {
     rquery.peopleFromOrg(req.processedQuery, function (err, results) {
       if (err) {
-        res.status(err.status || 400).send({
-          message: formatError(err)
+        res.status(err.status || 500).send({
+          error: err.message || 'Unknown error'
         });
       } else {
         // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
