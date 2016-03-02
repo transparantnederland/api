@@ -25,5 +25,5 @@ RETURN DISTINCT p as people, orgs, r.type
 
 
 
-// http://localhost:3001/peopleFromOrgsFromPerson?id=dbpedia_sg/VJBnjUsUl// 
+// http://localhost:3001/peopleFromOrgsFromPerson?id=dbpedia_sg/VJBnjUsUl//
 // http://localhost:3001/peopleFromOrgsFromPerson?id=urn:hgid:dbpedia_sg/E1CqqS5Ll
