@@ -10,5 +10,6 @@ RETURN
   orgs.id AS id,
   r.type AS type,
   person.id AS to,
-  coalesce(person.validSince, [])[0] AS since,
-  coalesce(person.validUntil, [])[0] AS until;
+  coalesce(person.validSince, [''])[0] AS since,
+  coalesce(person.validUntil, [''])[0] AS until
+ORDER BY until DESC;
