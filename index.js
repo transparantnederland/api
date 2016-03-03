@@ -137,7 +137,7 @@ app.get('/orgsFromOrg',
   params.preprocess,
   params.check,
   function (req, res) {
-    rquery.orgsInGroup(req.processedQuery, function (err, results) {
+    rquery.orgsFromOrg(req.processedQuery, function (err, results) {
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
