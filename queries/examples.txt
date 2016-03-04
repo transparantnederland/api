@@ -45,10 +45,10 @@ RETURN o, oo, oConcept
 
 
 // Person linked to VVD
-MATCH (b:_) WHERE b.name = 'VVD' 
-OPTIONAL MATCH b <-[:`=`]- (bConcept:`=`) 
-WITH coalesce(bConcept, b) AS b 
-MATCH (b)-[`=` * 0 .. 1]-()-[:`tnl:related` * 2]-(p:`tnl:Person`) 
+MATCH (b:_) WHERE b.name = 'VVD'
+OPTIONAL MATCH b <-[:`=`]- (bConcept:`=`)
+WITH coalesce(bConcept, b) AS b
+MATCH (b)-[`=` * 0 .. 1]-()-[:`tnl:related` * 2]-(p:`tnl:Person`)
 RETURN p, count(p)
 
 
@@ -73,7 +73,7 @@ MATCH ()-[r]-() return r limit 10
 
 MATCH (n:_)-[r0]->(r:_Rel)-[r1]->(m:_)`
 
-MATCH (n:_) -[r0:`tnl:related`|`tnl:member`]-> (r:_Rel) -[r1:`tnl:related`|`tnl:member`]-> (m:_) 
+MATCH (n:_) -[r0:`tnl:related`|`tnl:member`]-> (r:_Rel) -[r1:`tnl:related`|`tnl:member`]-> (m:_)
 return r limit 10
 
 
@@ -113,4 +113,10 @@ MATCH (orgs) <-[r0:`tnl:member`|`tnl:related`]-> (r:_Rel) -[r1:`tnl:member`|`tnl
 
 return people, orgs, r.type, person.name
 
+MATCH (n) WHERE n.id = "urn:hgid:pdc/01894_7ff660189"
+OPTIONAL MATCH (n) <-[:`=`]- (:`=`) <-[:`=i`]- (ni)
+WITH coalesce(ni, n) AS n
 
+MATCH (n) -[:`=i`|`tnl:related`|`tnl:member`|`tnl:boardmember`|`tnl:advisor`|`tnl:commissioner`|`tnl:employee`|`tnl:lobbyist`|`tnl:spokesperson`*1..2]- (r:_Rel) -[:`tnl:related`|`tnl:member`|`tnl:boardmember`|`tnl:advisor`|`tnl:commissioner`|`tnl:employee`|`tnl:lobbyist`|`tnl:spokesperson`]- (m) WHERE labels(m)[1] IN ['tnl:Organization','tnl:Commercial','tnl:Public']
+
+RETURN m.id AS id, n.id AS to;

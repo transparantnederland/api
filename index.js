@@ -115,7 +115,6 @@ app.get('/peopleFromOrg',
   }
 );
 
-
 app.get('/orgsFromPerson',
   params.preprocess,
   params.check,
@@ -124,6 +123,23 @@ app.get('/orgsFromPerson',
       if (err) {
         res.status(err.status || 400).send({
           message: formatError(err)
+        });
+      } else {
+        // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
+        res.send(results);
+      }
+    });
+  }
+);
+
+app.get('/relations',
+  params.preprocess,
+  params.check,
+  function (req, res) {
+    rquery.relations(req.processedQuery, function (err, results) {
+      if (err) {
+        res.status(err.status || 500).send({
+          error: err.message || 'Unknown error'
         });
       } else {
         // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
