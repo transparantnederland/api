@@ -9,6 +9,7 @@ MATCH (orgs) <-[r0:`=i`|«relations» * 1..2 ]- (r:_Rel) <-[r1:«relations» ]- 
 RETURN
   person.id AS id,
   r.type AS type,
+  orgs.id AS to,
   coalesce(person.validSince, [''])[0] AS since,
   coalesce(person.validUntil, [''])[0] AS until
 ORDER BY until DESC;

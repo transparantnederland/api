@@ -19,4 +19,11 @@ MATCH (orgs) <-[:`=i`|«relations» * 1..2]-
   AND person.validSinceTimestamp <= p.validUntilTimestamp
   AND person.validUntilTimestamp >= p.validSinceTimestamp
 
-RETURN DISTINCT p as people, orgs, r.type
+RETURN DISTINCT
+  p.id AS id,
+  r.type AS type,
+  orgs.id AS to,
+  orgs.name AS to_name,
+  coalesce(p.validSince, [''])[0] AS since,
+  coalesce(p.validUntil, [''])[0] AS until
+ORDER BY until DESC;
