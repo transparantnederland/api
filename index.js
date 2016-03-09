@@ -7,12 +7,16 @@ var stats = require('histograph-stats');
 var config = require('histograph-config');
 var query = require('./lib/query');
 var rquery = require('./lib/rquery');
+var reconcile = require('./lib/reconcile');
 var jsonld = require('./lib/jsonld');
 var geojson = require('./lib/geojson');
 var params = require('./lib/params');
+var bodyParser = require('body-parser');
 var app = express();
 
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Mount Histograph IO
 app.use('/', io);
@@ -148,6 +152,26 @@ app.get('/relations',
     });
   }
 );
+
+app.get('/reconcile', function (req, res) {
+  var jsonp = req.query.callback;
+  var meta = {
+    name: 'TNL',
+    identifierSpace: 'http://rdf.transparantnederland.nl',
+    schemaSpace: 'http://rdf.transparantnederland.nl',
+    view: {
+      url: 'https://browse.transparantnederland.nl/#{{id}}',
+    },
+  };
+  var json = jsonp + '(' + JSON.stringify(meta) + ')';
+  return res.send(json);
+});
+
+app.post('/reconcile', function (req, res) {
+  reconcile(req.body, function (err, results) {
+    return res.send(results);
+  });
+});
 
 app.get('/equivalentNodes',
   params.preprocess,
