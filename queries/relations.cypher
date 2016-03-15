@@ -1,9 +1,9 @@
 MATCH (n) WHERE n.id = {id}
 OPTIONAL MATCH (n) <-[:`=`]- (concept:`=`) <-[:`=i`]- (ni)
-WITH coalesce(ni, n) AS n, (CASE n.type WHEN 'tnl:Person' THEN ["tnl:Organization","tnl:Public","tnl:PoliticalParty","tnl:Commercial","tnl:NonProfit"] ELSE ["tnl:Person"] END) AS types
+WITH coalesce(ni, n) AS n
 
 MATCH (n) -[:`=`|`tnl:related`|`tnl:member`|`tnl:boardmember`|`tnl:advisor`|`tnl:commissioner`|`tnl:employee`|`tnl:lobbyist`|`tnl:spokesperson` *1..2]- (r:_Rel) -[:`tnl:related`|`tnl:member`|`tnl:boardmember`|`tnl:advisor`|`tnl:commissioner`|`tnl:employee`|`tnl:lobbyist`|`tnl:spokesperson`]- (m)
-WHERE m.type IN types
+WHERE m.type IN ["tnl:Organization","tnl:Public","tnl:PoliticalParty","tnl:Commercial","tnl:NonProfit","tnl:Sector","tnl:Person"]
 
 WITH
   m.id AS id,
