@@ -16,7 +16,7 @@ var app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Mount Histograph IO
 app.use('/', io);
@@ -168,6 +168,7 @@ app.get('/reconcile', function (req, res) {
 });
 
 app.post('/reconcile', function (req, res) {
+  // console.log(req);
   reconcile(req.body, function (err, results) {
     return res.send(results);
   });
