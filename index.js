@@ -156,7 +156,7 @@ app.get('/relations',
 app.get('/reconcile', function (req, res) {
   var jsonp = req.query.callback;
   var meta = {
-    name: 'TNL',
+    name: 'Transparant Nederland Reconciliation service',
     identifierSpace: 'http://rdf.transparantnederland.nl',
     schemaSpace: 'http://rdf.transparantnederland.nl',
     view: {
@@ -168,7 +168,6 @@ app.get('/reconcile', function (req, res) {
 });
 
 app.post('/reconcile', function (req, res) {
-  // console.log(req);
   reconcile(req.body, function (err, results) {
     return res.send(results);
   });
