@@ -163,7 +163,8 @@ app.get('/reconcile', function (req, res) {
       url: 'https://browse.transparantnederland.nl/#{{id}}',
     },
   };
-  var json = jsonp + '(' + JSON.stringify(meta) + ')';
+  var json = jsonp ? jsonp + '(' + JSON.stringify(meta) + ')' : JSON.stringify(meta);
+
   return res.send(json);
 });
 
