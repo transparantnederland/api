@@ -29,6 +29,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon --debug -e js,cypher index.js",
     "lint": "eslint ."
   },
   "repository": {
