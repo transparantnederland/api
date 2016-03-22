@@ -1,8 +1,9 @@
 {
   "name": "tnl-api",
   "version": "0.5.0",
-  "description": "API for Transparant Nederland",
+  "description": "Transparant Nederland API - Bestuurlijk Nederland in beeld",
   "main": "./index.js",
+  "homepage": "https://github.com/transparantnederland/api",
   "dependencies": {
     "async": "^0.9.2",
     "bcrypt": "^0.8.5",
@@ -35,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/transparantnederland/api.git"
+    "url": "https://github.com/transparantnederland/api.git"
   },
   "keywords": [],
   "author": "Bert Spaan <bert@waag.org>",

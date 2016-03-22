@@ -12,6 +12,8 @@ var jsonld = require('./lib/jsonld');
 var geojson = require('./lib/geojson');
 var params = require('./lib/params');
 var bodyParser = require('body-parser');
+var pkg = require('./package.json');
+
 var app = express();
 
 app.use(cors());
@@ -48,10 +50,10 @@ function formatError(err) {
 
 app.get('/', function (req, res) {
   res.send({
-    name: 'Transparant NL API',
-    version: '0.0.1',
-    message: 'Bestuurlijk Nederland in beeld',
-    docs: 'https://github.com/waagsociety/tnl-api',
+    name: 'Transparant Nederland API',
+    version: pkg.version,
+    message: pkg.description,
+    docs: pkg.homepage,
     examples: exampleUrls.map(function (query) {
       return url.resolve(config.api.baseUrl, query);
     })
