@@ -74,9 +74,9 @@ All API search calls expect at least one of the following parameters:
 
 | Type      | Format                       | MIME type              | JSON schema
 |-----------|------------------------------|------------------------|------------
-| Dataset   | JSON                         | `application/json`     | [`dataset.schema.json`](https://github.com/histograph/schemas/tree/master/json/dataset.schema.json)
-| PITs      | [NDJSON](http://ndjson.org/) | `application/x-ndjson` | [`pits.schema.json`](https://github.com/histograph/schemas/tree/master/json/pits.schema.json)
-| Relations | [NDJSON](http://ndjson.org/) | `application/x-ndjson` | [`relations.schema.json`](https://github.com/histograph/schemas/tree/master/json/relations.schema.json)
+| Dataset   | JSON                         | `application/json`     | [`dataset.schema.json`](https://github.com/histograph/schemas/tree/master/json-schemas/dataset.schema.json)
+| PITs      | [NDJSON](http://ndjson.org/) | `application/x-ndjson` | [`pits.schema.json`](https://github.com/histograph/schemas/tree/master/json-schemas/pits.schema.json)
+| Relations | [NDJSON](http://ndjson.org/) | `application/x-ndjson` | [`relations.schema.json`](https://github.com/histograph/schemas/tree/master/json-schemas/relations.schema.json)
 
 You can send NDJSON data in your PUT request's body when you are uploading a small data set (i.e. less than 5MB). For bigger NDJSON files, you can use `multipart/form-data` file upload.
 
