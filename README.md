@@ -31,6 +31,7 @@ And adds some more:
 | [`/peopleFromOrg`](#peopleFromOrg-api)      | Retrieve all people that have (had) a relation with an Organization
 | [`/peopleFromOrgsFromPerson`](#pfofp-api)   | Retrieve all people that have (had) a relation with organizations that a person has (had) a relationship with
 | [`/equivalentIDs`](#equivalentIDs-api)      | Retrieve all ID's of people or organizations that have an equivalence relation with a particular node
+| [`/reconcile`](#reconcile-api)              | [Open refine](http://openrefine.org/) reconciliation endpoint
 
 
 
@@ -103,5 +104,27 @@ All `POST`, `PATCH`, `PUT` and `DELETE` requests require [basic authentication](
 |----------------------|--------------------------------
 | `GET /stats/queue`   | Queue length
 | `GET /stats/queries` | Results of [data statistics queries](https://github.com/histograph/stats/tree/master/queries) (executed every _n_ hours)
+
+### Reconcile API
+
+We have an endpoint that supports integration with [Open Refine](openrefine.org). Unfortunately, our [SSL certificate provider](https://letsencrypt.org/) is not trusted by default by the included JDK. This means that you will have to manually add this certificate to your keystore in order to use this service.
+
+First, download the certificate:
+
+```sh
+echo -n | openssl s_client -connect api.transparantnederland.nl:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ~/api.transparantnederland.nl.crt
+```
+
+Then, add it to your Open Refine JDK keystore, where `$JAVA_HOME` is the location of the JDK (e.g. `/opt/homebrew-cask/Caskroom/openrefine-dev/2.6-rc.2/OpenRefine.app/Contents/PlugIns/jdk1.8.0_60.jdk/Contents/Home/`):
+
+```
+keytool -trustcacerts -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -noprompt -importcert -file ~/api.transparantnederland.nl.cer
+```
+
+| Endpoint             | Description
+|----------------------|--------------------------------
+| `GET /reconcile`     | Reconcile service metadata
+| `POST /reconcile`    | Results of query request
+
 
 Copyright (C) 2016 [Waag Society](http://waag.org).
