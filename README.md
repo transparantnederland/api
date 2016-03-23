@@ -117,7 +117,7 @@ echo -n | openssl s_client -connect api.transparantnederland.nl:443 | sed -ne '/
 
 Then, add it to your Open Refine JDK keystore, where `$JAVA_HOME` is the location of the JDK (e.g. `/opt/homebrew-cask/Caskroom/openrefine-dev/2.6-rc.2/OpenRefine.app/Contents/PlugIns/jdk1.8.0_60.jdk/Contents/Home/`):
 
-```
+```sh
 keytool -trustcacerts -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -noprompt -importcert -file ~/api.transparantnederland.nl.cer
 ```
 
