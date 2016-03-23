@@ -8,8 +8,6 @@ var config = require('histograph-config');
 var query = require('./lib/query');
 var rquery = require('./lib/rquery');
 var reconcile = require('./lib/reconcile');
-var jsonld = require('./lib/jsonld');
-var geojson = require('./lib/geojson');
 var params = require('./lib/params');
 var bodyParser = require('body-parser');
 var pkg = require('./package.json');
@@ -80,7 +78,6 @@ app.get('/search',
           error: err.message || 'Unknown error'
         });
       } else {
-        results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
         res.send(results);
       }
     });
@@ -97,7 +94,6 @@ app.get('/peopleFromOrgsFromPerson',
           error: err.message || 'Unknown error'
         });
       } else {
-        // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
         res.send(results);
       }
     });
@@ -114,7 +110,6 @@ app.get('/peopleFromOrg',
           error: err.message || 'Unknown error'
         });
       } else {
-        // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
         res.send(results);
       }
     });
@@ -131,7 +126,6 @@ app.get('/orgsFromPerson',
           message: formatError(err)
         });
       } else {
-        // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
         res.send(results);
       }
     });
@@ -148,7 +142,6 @@ app.get('/relations',
           error: err.message || 'Unknown error'
         });
       } else {
-        // results = jsonld(geojson(results, req.processedQuery), req.processedQuery);
         res.send(results);
       }
     });
