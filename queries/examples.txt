@@ -120,3 +120,19 @@ WITH coalesce(ni, n) AS n
 MATCH (n) -[:`=i`|`tnl:related`|`tnl:member`|`tnl:boardmember`|`tnl:advisor`|`tnl:commissioner`|`tnl:employee`|`tnl:lobbyist`|`tnl:spokesperson`*1..2]- (r:_Rel) -[:`tnl:related`|`tnl:member`|`tnl:boardmember`|`tnl:advisor`|`tnl:commissioner`|`tnl:employee`|`tnl:lobbyist`|`tnl:spokesperson`]- (m) WHERE labels(m)[1] IN ['tnl:Organization','tnl:Commercial','tnl:Public']
 
 RETURN m.id AS id, n.id AS to;
+
+// group query
+
+MATCH (org) WHERE org.id = "urn:hgid:pdc/shellnederland"
+OPTIONAL MATCH (org) <-[:`=`]- (concept:`=`) <-[:`=i`]- (norg)
+WITH coalesce(norg, org) AS org, [] AS network, [] AS relations, [] AS relations_to
+
+OPTIONAL MATCH (org) -[:`=i`|`tnl:parent` * 1..2]- (pr:_Rel) <-[:`tnl:parent`]- (parent), (parent) -[:`=i`|`tnl:parent` * 1..2]- (pcr:_Rel) -[:`tnl:parent`]-> (siblings)
+OPTIONAL MATCH (org) -[:`=i`|`tnl:parent` * 1..2]- (cr:_Rel) -[:`tnl:parent`]-> (children)
+
+WITH network + org.id + siblings.id + children.id AS network, relations + pr.type + pcr.type + cr.type AS relations, relations_to + pr.to + pcr.to + cr.to AS relations_to
+UNWIND network AS id
+UNWIND relations AS type
+UNWIND relations_to AS to
+
+RETURN DISTINCT id, type, to;
