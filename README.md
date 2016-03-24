@@ -107,19 +107,26 @@ All `POST`, `PATCH`, `PUT` and `DELETE` requests require [basic authentication](
 
 ### Reconcile API
 
-We have an endpoint that supports integration with [Open Refine](openrefine.org). Unfortunately, our [SSL certificate provider](https://letsencrypt.org/) is not trusted by default by the included JDK. This means that you will have to manually add this certificate to your keystore in order to use this service.
+We have an endpoint that supports integration with [Open Refine](openrefine.org). Unfortunately, our [SSL certificate provider](https://letsencrypt.org/) is not trusted by default by the included JDK. There are two ways to fix this:
 
-First, download the certificate:
 
-```sh
-echo -n | openssl s_client -connect api.transparantnederland.nl:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ~/api.transparantnederland.nl.crt
-```
+1. Manually add this certificate to your keystore in order to use this service.
 
-Then, add it to your Open Refine JDK keystore, where `$JAVA_HOME` is the location of the JDK (e.g. `/opt/homebrew-cask/Caskroom/openrefine-dev/2.6-rc.2/OpenRefine.app/Contents/PlugIns/jdk1.8.0_60.jdk/Contents/Home/`):
+  First, download the certificate:
 
-```sh
-keytool -trustcacerts -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -noprompt -importcert -file ~/api.transparantnederland.nl.cer
-```
+  ```sh
+  echo -n | openssl s_client -connect api.transparantnederland.nl:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ~/api.transparantnederland.nl.crt
+  ```
+
+  Then, add it to your Open Refine JDK keystore, where `$JAVA_HOME` is the location of the JDK (e.g. `/opt/homebrew-cask/Caskroom/openrefine-dev/2.6-rc.2/OpenRefine.app/Contents/PlugIns/jdk1.8.0_60.jdk/Contents/Home/`):
+
+  ```sh
+  keytool -trustcacerts -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -noprompt -importcert -file ~/api.transparantnederland.nl.cer
+  ```
+
+2. Use an other endpoint (could stop working at a later point).
+
+  Currently the reconciliation service is also available under http://api.transparantnederland.nl:3001/reconcile.
 
 | Endpoint             | Description
 |----------------------|--------------------------------
