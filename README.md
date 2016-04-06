@@ -31,6 +31,7 @@ And adds some more:
 | [`/peopleFromOrg`](#peopleFromOrg-api)      | Retrieve all people that have (had) a relation with an Organization
 | [`/peopleFromOrgsFromPerson`](#pfofp-api)   | Retrieve all people that have (had) a relation with organizations that a person has (had) a relationship with
 | [`/equivalentIDs`](#equivalentIDs-api)      | Retrieve all ID's of people or organizations that have an equivalence relation with a particular node
+| [`/shortestPath`](#shortestpath-api)        | Retrieve the shortest path between two PITs
 | [`/reconcile`](#reconcile-api)              | [Open refine](http://openrefine.org/) reconciliation endpoint
 
 
@@ -104,6 +105,21 @@ All `POST`, `PATCH`, `PUT` and `DELETE` requests require [basic authentication](
 |----------------------|--------------------------------
 | `GET /stats/queue`   | Queue length
 | `GET /stats/queries` | Results of [data statistics queries](https://github.com/histograph/stats/tree/master/queries) (executed every _n_ hours)
+
+### ShortestPath API
+
+| Endpoint            | Description
+|---------------------|-----------------
+| `GET /shortestPath` | Return the shortest path between two PITs
+
+#### Parameters
+
+This endpoint requires parameters:
+
+| Parameter    | Example                                    | Description
+|--------------|--------------------------------------------|-----------------
+| `id`         | `id=urn:hgid:pdc/shellnederland`           | From PIT
+| `related.id` | `id=urn:hgid:pdc/vvd`                      | TO PIT
 
 ### Reconcile API
 
