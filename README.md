@@ -119,7 +119,7 @@ This endpoint requires parameters:
 | Parameter    | Example                                    | Description
 |--------------|--------------------------------------------|-----------------
 | `id`         | `id=urn:hgid:pdc/shellnederland`           | From PIT
-| `related.id` | `id=urn:hgid:pdc/vvd`                      | TO PIT
+| `related.id` | `related.id=urn:hgid:pdc/vvd`              | TO PIT
 
 ### Reconcile API
 
